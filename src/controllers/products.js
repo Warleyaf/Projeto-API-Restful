@@ -9,7 +9,27 @@ async function get(req, res) {
 
   res.send(products)
 }
+// Criando o método post
+async function post(req, res) {
+  const { 
+    name,
+    brand,
+    price,
+  } = req.body
 
+  const products = new ProductsModel({
+    name,
+    brand,
+    price,
+  })
+
+  products.save()
+  res.send({
+    message: 'Sucess'
+  })
+
+}
 module.exports = {
   get,
+  post,
 }
