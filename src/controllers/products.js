@@ -1,5 +1,6 @@
 const ProductsModel = require('../models/products')
 
+// Criando o métoddo get
 async function get(req, res) {
   const { id } = req.params
   
@@ -35,25 +36,21 @@ async function put(req, res) {
   const { id } = req.params //capturando o meu id
 
   // Outro método de procurar o produto usando o findOneAndUpdate() mais adequado fazer com esse código
-  const product = await ProductsModel.findOneAndUpdate({ _id:id }, req.body, { new: true }) // Esse método findOneAndUpdate() faz o seguinte, ele procura um item baseado no id que eu passar e ele já vai fazer a atualização desse item, o primeiro valor que passo é o id o poduto que quero procurar, o segundo valor é o valor que eu quero alterar ai passo o req.body, e o terceiro valor é se eu quero que ele me retorne o objeto novo ou o produto novo já atualizado ai eu passo o {new: true}
+  const product = await ProductsModel.findOneAndUpdate({ _id:id }, req.body, { new: true })
 
   res.send({
     message: 'Success!',
     product,
   })
 
-
-
-
   /*
-
   trecho do código de alterar o produto, uma das formas
 
-  const product = await ProductsModel.findOne({ _id: id}) // aqui nessa linha eu estou procurando o meu produto com o .findOne(), depois que eu achei o meu elemento com o findOne() agora eu consigo alterar os elelemetos dele.
+  const product = await ProductsModel.findOne({ _id: id})
 
-  await product.updateOne(req.body) // método updateOne meio que é para atualizar o produto, mas como ta one só vai atualizar 1 produto, e entre parenteses eu posso colocar o que eu quero atualizar nele Ex.: se eu quero atualizar só o name eu coloco name: '' <- dessa forma aqui mas como eu quero alterar tudo eu coloco o req.body
+  await product.updateOne(req.body)
 
-  res.send({ // isso aqui é uma boa prática, porque vai me retornar uma menssagem de sucesso que foi alterado e o produto que foi alterado.
+  res.send({
     message: 'success',
     product,
   })
@@ -61,8 +58,22 @@ async function put(req, res) {
   */
 }
 
+// Criando o Método DELETE (apagar as coisas)
+async function remove(req, res) {
+  const { id } = req.params
+
+  const remove = await ProductsModel.deleteOne({ _id: id })
+
+  const message = remove.ok ? "Succes" : "Error"
+
+  res.send({
+    message,
+  })
+}
+
 module.exports = {
   get,
   post,
   put,
+  remove,
 }
